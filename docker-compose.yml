@@ -1,0 +1,40 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: negotiator
+      POSTGRES_PASSWORD: negotiator
+      POSTGRES_DB: negotiations
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U negotiator"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  backend:
+    build: ./backend
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      DATABASE_URL: postgresql://negotiator:negotiator@postgres:5432/negotiations
+      ANTHROPIC_API_KEY: ${ANTHROPIC_API_KEY:-}
+      MOCK_MODE: ${MOCK_MODE:-false}
+    ports:
+      - "8000:8000"
+
+  frontend:
+    build: ./frontend
+    depends_on:
+      - backend
+    environment:
+      API_PROXY_TARGET: http://backend:8000
+    ports:
+      - "5173:5173"
+
+volumes:
+  pgdata:
