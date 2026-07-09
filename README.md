@@ -144,11 +144,14 @@ outcomes.
 
 ## Actual cost so far
 
-<!-- filled in after running real negotiations -- see below -->
+Not yet measured. Everything above has been verified end to end in mock mode (engine, database,
+API, websockets, frontend) but not yet run against the real Anthropic API. That's next: one single
+negotiation to confirm the integration and check actual cost against the estimate, then a small
+batch (5-10 negotiations) with real numbers reported here.
 
 ## Sample findings
 
-<!-- filled in after running a real batch -- see below -->
+Pending the real batch run above -- there's no real transcript data yet to draw findings from.
 
 ## Limitations
 
