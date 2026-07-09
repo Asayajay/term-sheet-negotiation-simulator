@@ -1,0 +1,50 @@
+# Negotiation simulator configuration.
+# Cost-control limits here are hard caps enforced in code (see app/config.py) --
+# raising them in this file is not enough; the --override flag is also required
+# above the max_rounds_hard_cap / batch_size_hard_cap thresholds.
+
+model:
+  default: claude-haiku-4-5
+  allowed:
+    - claude-haiku-4-5
+    - claude-sonnet-5
+
+rounds:
+  default_max_rounds: 6
+  hard_cap: 12          # refuse to run above this without --override
+
+batch:
+  default_size_cap: 20
+  hard_cap: 100         # refuse to run above this without --override
+
+pricing_usd_per_million_tokens:
+  claude-haiku-4-5:
+    input: 1.00
+    output: 5.00
+  claude-sonnet-5:
+    input: 2.00   # introductory rate through 2026-08-31
+    output: 10.00
+
+# Rough average tokens per agent turn, used only for the pre-flight cost
+# estimate shown before a batch run. Actual cost is logged per negotiation
+# from real API usage.
+estimate:
+  avg_input_tokens_per_turn: 1400
+  avg_output_tokens_per_turn: 220
+
+# Ranges used by the batch runner / trigger UI when randomizing scenario
+# parameters for exploratory batches.
+scenario_ranges:
+  founder:
+    runway_months: [3, 24]
+    competing_offers: [0, 4]
+    sector_heat: [cold, warm, hot]
+    monthly_revenue_usd: [0, 250000]
+    revenue_growth_rate_pct: [0, 40]
+  vc:
+    risk_appetite: [low, medium, high]
+    fund_stage: [pre_seed, seed, series_a]
+    fund_size_musd: [20, 500]
+    deal_enthusiasm: [0.1, 0.95]
+    portfolio_fit: [poor, moderate, strong]
+    investment_amount_musd: [0.25, 5]
