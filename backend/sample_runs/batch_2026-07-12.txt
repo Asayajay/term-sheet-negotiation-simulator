@@ -1,0 +1,45 @@
+First real batch run against the live Anthropic API.
+Command: python scripts/run_batch.py --size 8 --model claude-haiku-4-5 --max-rounds 6 --yes
+
+Estimated cost for 8 negotiations x up to 6 rounds on claude-haiku-4-5: $0.2400
+(This is a ceiling estimate assuming no early accepts -- actual cost is usually lower.)
+[1/8] outcome=deal cost=$0.0159 rounds=5
+[2/8] outcome=deal cost=$0.0194 rounds=6
+[3/8] outcome=deal cost=$0.0158 rounds=5
+[4/8] outcome=deal cost=$0.0192 rounds=6
+[5/8] outcome=deal cost=$0.0158 rounds=5
+[6/8] outcome=deal cost=$0.0096 rounds=3
+[7/8] outcome=deal cost=$0.0262 rounds=8
+[8/8] outcome=deal cost=$0.0097 rounds=3
+
+Batch complete. batch_id=98bc756bb2b24e709e6295e525007bda
+
+Actual total: $0.1316 against a $0.2400 ceiling estimate (55%). All 8 deals
+closed -- 8/8 deal rate, 2-4 rounds to close, final valuations $5.2M-$15M,
+final founder equity 7.4%-22.07%.
+
+Combined with the single negotiation before it, 9/9 real negotiations have
+closed as deals so far, total real spend $0.1475.
+
+Term volatility across all 9 real negotiations (from app/analysis.term_volatility):
+{
+  "pre_money_valuation_usd":        {"pct_volatility": 10.74},
+  "equity_percentage":              {"pct_volatility": 11.27},
+  "liquidation_preference_multiple":{"pct_volatility": 16.52},
+  "board_seats_founder":            {"pct_volatility": 3.67},
+  "board_seats_investor":           {"pct_volatility": 16.52},
+  "board_seats_independent":        {"pct_volatility": 3.67},
+  "option_pool_percentage":         {"pct_volatility": 2.8},
+  "vesting_years":                  {"pct_volatility": 0.0},
+  "vesting_cliff_months":           {"pct_volatility": 8.72},
+  "liquidation_participating":      {"change_rate": 0.1786},
+  "pro_rata_rights":                {"change_rate": 0.0},
+  "anti_dilution":                  {"change_rate": 0.0357}
+}
+
+Liquidation preference multiple and investor board seats moved the most
+round to round; option pool, vesting schedule, and pro-rata rights were
+effectively non-negotiable across this sample -- consistent with those being
+treated as market-standard defaults rather than active bargaining chips.
+Sample size is small (9 negotiations), so treat this as a first read, not a
+stable result.
