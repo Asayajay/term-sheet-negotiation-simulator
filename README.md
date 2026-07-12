@@ -144,14 +144,49 @@ outcomes.
 
 ## Actual cost so far
 
-Not yet measured. Everything above has been verified end to end in mock mode (engine, database,
-API, websockets, frontend) but not yet run against the real Anthropic API. That's next: one single
-negotiation to confirm the integration and check actual cost against the estimate, then a small
-batch (5-10 negotiations) with real numbers reported here.
+Measured now: one single negotiation plus a batch of 8, all on `claude-haiku-4-5` with a 6-round
+cap.
+
+| Run | Negotiations | Ceiling estimate | Actual cost | Actual as % of ceiling |
+| --- | --- | --- | --- | --- |
+| Single | 1 | $0.0300 | $0.0159 | 53% |
+| Batch | 8 | $0.2400 | $0.1316 | 55% |
+| **Total** | **9** | **$0.2700** | **$0.1475** | **55%** |
+
+Actual cost lands consistently around half the ceiling estimate, which tracks -- the estimate
+assumes the worst case (every negotiation running the full 6 rounds with no early accept), and in
+practice most of these closed in 2-5 rounds. All 9 real negotiations closed as deals; none walked
+away or errored out. Full transcripts for both runs are in `backend/sample_runs/`.
 
 ## Sample findings
 
-Pending the real batch run above -- there's no real transcript data yet to draw findings from.
+From the 9 real negotiations so far (`claude-haiku-4-5`, 6-round cap): final pre-money valuations
+ranged from $5.2M to $15M, founder equity retained ranged from 7.4% to 22.07%, and deals closed in
+2-4 rounds each.
+
+Running `term_volatility` over these negotiations shows which terms actually got contested round to
+round and which ones didn't move at all:
+
+| Term | Volatility |
+| --- | --- |
+| Liquidation preference multiple | 16.52% |
+| Investor board seats | 16.52% |
+| Equity percentage | 11.27% |
+| Pre-money valuation | 10.74% |
+| Vesting cliff | 8.72% |
+| Founder / independent board seats | 3.67% |
+| Option pool | 2.8% |
+| Vesting years | 0% (never moved) |
+
+Liquidation preference and board seat allocation were the most actively negotiated terms in this
+sample -- both sides pushed harder on governance and downside protection than on almost anything
+else. Option pool and vesting schedule were treated as fixed defaults in every negotiation
+observed, and pro-rata rights never changed once proposed. That lines up with how real term sheets
+tend to go: valuation and control are where the actual back-and-forth happens, and the boilerplate
+terms get accepted as-is.
+
+Nine negotiations is a small sample -- read this as a first pass, not a settled result (see
+Limitations below).
 
 ## Limitations
 
