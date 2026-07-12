@@ -1,0 +1,104 @@
+First real negotiation against the live Anthropic API.
+Command: python scripts/run_single.py --model claude-haiku-4-5 --max-rounds 6 --persist
+
+Estimated cost ceiling: $0.0300 on claude-haiku-4-5, up to 6 rounds
+
+--- round 1 | VC | propose ---
+reasoning: As a low-risk pre-seed investor with strong portfolio fit, I'm anchoring conservatively while leaving room to move. I'm targeting a 12M pre-money valuation to capture ~33% equity on my $3.97M check, which provides solid downside protection. I'll request 1.5x non-participating preference (standard for pre-seed) and broad-based weighted average anti-dilution, while taking one board seat to monitor risk. The option pool is set at 15% to incentivize the team without excessive founder dilution.
+terms: {
+  "pre_money_valuation_usd": 12000000,
+  "equity_percentage": 33.03,
+  "liquidation_preference_multiple": 1.5,
+  "liquidation_participating": false,
+  "board_seats_founder": 2,
+  "board_seats_investor": 1,
+  "board_seats_independent": 0,
+  "option_pool_percentage": 15.0,
+  "vesting_years": 4.0,
+  "vesting_cliff_months": 12,
+  "pro_rata_rights": true,
+  "anti_dilution": "broad_based_weighted_average"
+}
+tokens: in=1516 out=272 cache_read=0 cost=$0.00288
+
+--- round 1 | FOUNDER | propose ---
+reasoning: The investor's opening is aggressive on valuation and equity take but reasonable on governance and liquidation terms. With only 3 months of runway and 4 competing offers, I have some leverage, but I can't afford to walk away lightly. I'll counter on valuation (push to $14.5M) to retain more equity, request founder board control (2 seats vs 1 investor), and accept the non-participating 1.5x preference since that's market-standard and limits upside dilution. I'm signaling willingness to move on secondary terms while anchoring hard on founder control and valuation.
+terms: {
+  "pre_money_valuation_usd": 14500000,
+  "equity_percentage": 27.45,
+  "liquidation_preference_multiple": 1.5,
+  "liquidation_participating": false,
+  "board_seats_founder": 2,
+  "board_seats_investor": 1,
+  "board_seats_independent": 1,
+  "option_pool_percentage": 15.0,
+  "vesting_years": 4.0,
+  "vesting_cliff_months": 12,
+  "pro_rata_rights": true,
+  "anti_dilution": "broad_based_weighted_average"
+}
+changed: ['pre_money_valuation_usd', 'equity_percentage', 'board_seats_independent']
+tokens: in=1780 out=285 cache_read=0 cost=$0.00320
+
+--- round 2 | VC | propose ---
+reasoning: The founder has pushed back on valuation to $14.5M and is anchoring on founder board control—both reasonable moves given their runway pressure and competing offers. However, their 27.45% equity stake is still high for a $3.97M check at this valuation, and I need to improve my position on downside protection and future-round access. I'll counter by accepting their valuation to show good faith, modestly increasing my equity take, and securing full pro-rata rights with anti-dilution protection—these are lower-friction concessions than fighting on governance, which they clearly prioritize.
+terms: {
+  "pre_money_valuation_usd": 14500000,
+  "equity_percentage": 27.8,
+  "liquidation_preference_multiple": 1.5,
+  "liquidation_participating": false,
+  "board_seats_founder": 2,
+  "board_seats_investor": 1,
+  "board_seats_independent": 1,
+  "option_pool_percentage": 15.0,
+  "vesting_years": 4.0,
+  "vesting_cliff_months": 12,
+  "pro_rata_rights": true,
+  "anti_dilution": "broad_based_weighted_average"
+}
+changed: ['equity_percentage']
+tokens: in=1789 out=280 cache_read=0 cost=$0.00319
+
+--- round 2 | FOUNDER | propose ---
+reasoning: The investor has moved meaningfully on valuation by accepting my $14.5M anchor, which signals real negotiation momentum. However, their push to 27.8% equity is aggressive—at a $14.5M pre-money on a $3.97M check, they should be closer to 21-22%. I'm holding firm on board control (2 founder seats is non-negotiable for steering the company through growth) and the broad-based anti-dilution they've accepted is reasonable. I'll counter by pushing equity back down while conceding on the vesting cliff to 12 months (standard) and confirming pro-rata rights—this trades lower-priority founder governance for equity retention that matters more to my long-term stake.
+terms: {
+  "pre_money_valuation_usd": 14500000,
+  "equity_percentage": 21.5,
+  "liquidation_preference_multiple": 1.5,
+  "liquidation_participating": false,
+  "board_seats_founder": 2,
+  "board_seats_investor": 1,
+  "board_seats_independent": 1,
+  "option_pool_percentage": 15.0,
+  "vesting_years": 4.0,
+  "vesting_cliff_months": 12,
+  "pro_rata_rights": true,
+  "anti_dilution": "broad_based_weighted_average"
+}
+changed: ['equity_percentage']
+tokens: in=1795 out=312 cache_read=0 cost=$0.00335
+
+--- round 3 | VC | accept ---
+reasoning: The current terms at $14.5M pre-money with 21.5% equity represent fair value for our $3.97M investment and align well with our pre-seed thesis. The 1.5x non-participating preference with broad-based anti-dilution provides adequate downside protection for a low-risk appetite fund. While I'd prefer tighter board control (2 investor seats), the 1-1-1 structure with pro-rata rights is workable, and the 12-month cliff is market-standard. Given strong portfolio fit and limited deal heat (0.21 enthusiasm), accepting this term sheet locks in a solid investment without further negotiation friction.
+tokens: in=1822 out=297 cache_read=0 cost=$0.00331
+
+============================================================
+OUTCOME: deal
+FINAL TERMS: {
+  "pre_money_valuation_usd": 14500000,
+  "equity_percentage": 21.5,
+  "liquidation_preference_multiple": 1.5,
+  "liquidation_participating": false,
+  "board_seats_founder": 2,
+  "board_seats_investor": 1,
+  "board_seats_independent": 1,
+  "option_pool_percentage": 15.0,
+  "vesting_years": 4.0,
+  "vesting_cliff_months": 12,
+  "pro_rata_rights": true,
+  "anti_dilution": "broad_based_weighted_average"
+}
+Rounds to close: 3
+TOTAL: input_tokens=8702 output_tokens=1446 cost=$0.01593
+
+Persisted as negotiation_id=f65fa688bb174fdeb84fcaeee9be7948
